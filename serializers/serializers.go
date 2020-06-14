@@ -24,6 +24,12 @@ func (j *JSONFormat) Decode(raw []byte) ([]models.Point, error) {
 	return points, nil
 }
 
+// Encodes an interface into an array of bytes
+func (j *JSONFormat) Encode(data interface{}) []byte {
+	payload, _ := json.Marshal(data)
+	return payload
+}
+
 // Returns a new JSONFormat.
 func NewJSONFormat() CartesianSerializer {
 	return &JSONFormat{}
