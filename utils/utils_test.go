@@ -10,7 +10,7 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	logger.SetOutput(ioutil.Discard)
+	Logger.SetOutput(ioutil.Discard)
 	os.Exit(m.Run())
 }
 
@@ -133,7 +133,7 @@ func TestValidateHTTPMethodInvalid(t *testing.T) {
 	}{
 		{"HEAD", ErrInvalidMethod("HEAD")},
 		{"OPTIONS", ErrInvalidMethod("OPTIONS")},
-		{"OPTIONS", ErrInvalidMethod("CONNECT")},
+		{"CONNECT", ErrInvalidMethod("CONNECT")},
 		{"TRACE", ErrInvalidMethod("TRACE")},
 		{"POST", ErrInvalidMethod("POST")},
 		{"PUT", ErrInvalidMethod("PUT")},
@@ -146,7 +146,7 @@ func TestValidateHTTPMethodInvalid(t *testing.T) {
 			g := gomega.NewGomegaWithT(t)
 
 			err := ValidateHTTPMethod(tt.in)
-			g.Expect(err).To(gomega.MatchError(ErrInvalidMethod(tt.in)), "Error should be a ErrInvalidQuery")
+			g.Expect(err).To(gomega.MatchError(tt.out), "Error should be a ErrInvalidQuery")
 		})
 	}
 }
