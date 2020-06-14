@@ -8,7 +8,8 @@ import (
 
 // Cartesian serializer interface definition
 type CartesianSerializer interface {
-	Decode(raw []byte) ([]models.Point, error)
+	Decode([]byte) ([]models.Point, error)
+	Encode(interface{}) []byte
 }
 
 // JSON implementation of cartesian serializer interface
