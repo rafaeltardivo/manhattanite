@@ -59,5 +59,5 @@ func main() {
 		os.Exit(1)
 	}
 	logger.Info(fmt.Sprintf("server is ready to accept connections on port %s", port))
-	http.ListenAndServe(fmt.Sprintf(":%s", port), nil)
+	http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", port), nil)
 }
