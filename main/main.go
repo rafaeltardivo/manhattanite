@@ -24,12 +24,12 @@ func main() {
 
 	http.HandleFunc("/api/points", func(w http.ResponseWriter, r *http.Request) {
 
-		if err := utils.ValidateHTTPMethod(r); err != nil {
+		if err := utils.ValidateHTTPMethod(r.Method); err != nil {
 			utils.JSONResponse(w, utils.ErrorResponse{Msg: err.Error()}, http.StatusForbidden)
 			return
 		}
 
-		params, err := utils.ValidateRequest(r)
+		params, err := utils.ValidateRequest(r.URL.Query())
 		if err != nil {
 			utils.JSONResponse(w, utils.ErrorResponse{Msg: err.Error()}, http.StatusBadRequest)
 			return

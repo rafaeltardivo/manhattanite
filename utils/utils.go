@@ -56,7 +56,7 @@ func CalculateManhattanDistance(queried models.Point, loaded models.Point) int {
 	return x + y
 }
 
-// Parses and return parameter as an integer
+// Parses and return parameter as an integer.
 func parseIntParameter(name string, query url.Values) (int, error) {
 	param, found := query[name]
 	if !found {
@@ -71,7 +71,8 @@ func parseIntParameter(name string, query url.Values) (int, error) {
 	return value, nil
 }
 
-// Return QueryParameters structured data
+// Parses and returns query parameters.
+// Expected: x, y and distance
 func parseQueryParameters(query url.Values) (*QueryParameters, error) {
 	if len(query) < 1 {
 		return nil, ErrInvalidQuery("empty query")
@@ -97,9 +98,8 @@ func parseQueryParameters(query url.Values) (*QueryParameters, error) {
 	}, nil
 }
 
-// Validates request query parameters
-func ValidateRequest(r *http.Request) (*QueryParameters, error) {
-	rawParams := r.URL.Query()
+// Validates and returns request query parameters.
+func ValidateRequest(rawParams map[string][]string) (*QueryParameters, error) {
 	queryParams, err := parseQueryParameters(rawParams)
 
 	if err != nil {
@@ -109,19 +109,20 @@ func ValidateRequest(r *http.Request) (*QueryParameters, error) {
 	return queryParams, nil
 }
 
-// Validates request http method (only GET is allowed)
-func ValidateHTTPMethod(r *http.Request) error {
-	if r.Method != http.MethodGet {
-		return ErrInvalidMethod(r.Method)
+// Validates request http method (only GET is allowed).
+func ValidateHTTPMethod(HTTPMethod string) error {
+	if HTTPMethod != http.MethodGet {
+		return ErrInvalidMethod(HTTPMethod)
 	}
 
 	return nil
 }
 
-// Returns HTTP response as JSON
+// Returns HTTP response as JSON.
 func JSONResponse(w http.ResponseWriter, data interface{}, statusCode int) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.Header().Set("X-Content-Type-Options", "nosniff")
 	w.WriteHeader(statusCode)
+
 	fmt.Fprintln(w, string(serializers.NewJSONFormat().Encode(data)))
 }
