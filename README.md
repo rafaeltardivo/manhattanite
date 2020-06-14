@@ -15,7 +15,6 @@ Manhatannite service provides a simple API with a single endpoint that returns a
 - [Developing](#developing)
     - [Installing](#installing)
     - [API](#using-the-api)
-- [More API Request Examples](#more-api-request-examples)
 - [Logs](#logs)
 - [Final Considerations](#final-considerations)
     
