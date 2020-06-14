@@ -19,17 +19,17 @@ type QueryParameters struct {
 	MaxManhattanDistance int
 }
 
-var logger = logrus.New()
+var Logger = logrus.New()
 
 func init() {
-	logger.SetFormatter(&logrus.JSONFormatter{})
+	Logger.SetFormatter(&logrus.JSONFormatter{})
 }
 
 // Loads server port from to environment variable.
 func LoadServerPort() string {
 	key := "HTTP_SERVER_PORT"
 
-	logger.Info(fmt.Sprintf("loading key %s from environment", key))
+	Logger.Info(fmt.Sprintf("loading key %s from environment", key))
 	return os.Getenv(key)
 }
 
@@ -37,7 +37,7 @@ func LoadServerPort() string {
 func LoadDataFilePath() string {
 	key := "POINTS_FILE_RELATIVE_PATH"
 
-	logger.Info(fmt.Sprintf("loading key %s from environment", key))
+	Logger.Info(fmt.Sprintf("loading key %s from environment", key))
 	return os.Getenv(key)
 }
 
@@ -117,7 +117,7 @@ func parseQueryParameters(query map[string][]string) (*QueryParameters, error) {
 
 // Validates and returns request query parameters.
 func ValidateRequest(rawParams map[string][]string) (*QueryParameters, error) {
-	logger.Info(fmt.Sprintf("validating request parameters %s", rawParams))
+	Logger.Info(fmt.Sprintf("validating request parameters %s", rawParams))
 	queryParams, err := parseQueryParameters(rawParams)
 
 	if err != nil {
