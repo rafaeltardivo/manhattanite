@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"net/url"
 	"os"
 	"strconv"
 
@@ -26,7 +25,7 @@ func init() {
 	logger.SetFormatter(&logrus.JSONFormatter{})
 }
 
-// Loads server port according to environment variable.
+// Loads server port from to environment variable.
 func LoadServerPort() string {
 	key := "HTTP_SERVER_PORT"
 
@@ -34,14 +33,19 @@ func LoadServerPort() string {
 	return os.Getenv(key)
 }
 
-// Loads file according to environtment variable.
-func LoadDataFile() ([]byte, error) {
+// Loads data file path from environment variable.
+func LoadDataFilePath() string {
 	key := "POINTS_FILE_RELATIVE_PATH"
 
 	logger.Info(fmt.Sprintf("loading key %s from environment", key))
-	path := os.Getenv(key)
+	return os.Getenv(key)
+}
+
+// Loads file according to environtment variable.
+func LoadDataFile() ([]byte, error) {
+	path := LoadDataFilePath()
 	if path == "" {
-		return nil, ErrNotFound("key", key)
+		return nil, ErrNotFound("key", "could not load file path")
 	}
 
 	raw, err := ioutil.ReadFile(path)
@@ -70,7 +74,7 @@ func CalculateManhattanDistance(queried models.Point, loaded models.Point) int {
 }
 
 // Parses and return parameter as an integer.
-func parseIntParameter(name string, query url.Values) (int, error) {
+func parseIntParameter(name string, query map[string][]string) (int, error) {
 	param, found := query[name]
 	if !found {
 		return 0, ErrInvalidQuery(fmt.Sprintf("missing parameter %s", name))
