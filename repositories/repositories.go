@@ -6,7 +6,7 @@ import (
 	"github.com/manhattanite/utils"
 )
 
-// Cartesian repository interface definition
+// Cartesian repository interface definition.
 type CartesianRepository interface {
 	LoadPoints() ([]models.Point, error)
 }
@@ -16,7 +16,7 @@ type localJSONFile struct{}
 
 // Loads and returns points data from json file.
 func (l *localJSONFile) LoadPoints() ([]models.Point, error) {
-	raw, err := utils.LoadDataFile("../.env", "POINTS_FILE_RELATIVE_PATH")
+	raw, err := utils.LoadDataFile()
 	if err != nil {
 		return nil, err
 	}

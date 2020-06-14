@@ -8,9 +8,9 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/joho/godotenv"
 	"github.com/manhattanite/models"
 	"github.com/manhattanite/serializers"
+	"github.com/sirupsen/logrus"
 )
 
 // Query parameters data
@@ -20,12 +20,25 @@ type QueryParameters struct {
 	MaxManhattanDistance int
 }
 
-// Loads file according to environtment variable.
-func LoadDataFile(envFile string, key string) ([]byte, error) {
-	if err := godotenv.Load(envFile); err != nil {
-		return nil, ErrNotFound("env file", envFile)
-	}
+var logger = logrus.New()
 
+func init() {
+	logger.SetFormatter(&logrus.JSONFormatter{})
+}
+
+// Loads server port according to environment variable.
+func LoadServerPort() string {
+	key := "HTTP_SERVER_PORT"
+
+	logger.Info(fmt.Sprintf("loading key %s from environment", key))
+	return os.Getenv(key)
+}
+
+// Loads file according to environtment variable.
+func LoadDataFile() ([]byte, error) {
+	key := "POINTS_FILE_RELATIVE_PATH"
+
+	logger.Info(fmt.Sprintf("loading key %s from environment", key))
 	path := os.Getenv(key)
 	if path == "" {
 		return nil, ErrNotFound("key", key)
@@ -39,8 +52,8 @@ func LoadDataFile(envFile string, key string) ([]byte, error) {
 	return raw, nil
 }
 
-// Calculates and returns manhattan distance between queried and loaded point
-// Formula: |queried.X - loaded.X| + |queried.Y - loaded.Y|
+// Calculates and returns manhattan distance between queried and loaded point.
+// Formula: |queried.X - loaded.X| + |queried.Y - loaded.Y|.
 func CalculateManhattanDistance(queried models.Point, loaded models.Point) int {
 	x := queried.X - loaded.X
 	// Absolute value
@@ -72,8 +85,8 @@ func parseIntParameter(name string, query url.Values) (int, error) {
 }
 
 // Parses and returns query parameters.
-// Expected: x, y and distance
-func parseQueryParameters(query url.Values) (*QueryParameters, error) {
+// Expected: x, y and distance.
+func parseQueryParameters(query map[string][]string) (*QueryParameters, error) {
 	if len(query) < 1 {
 		return nil, ErrInvalidQuery("empty query")
 	}
@@ -100,6 +113,7 @@ func parseQueryParameters(query url.Values) (*QueryParameters, error) {
 
 // Validates and returns request query parameters.
 func ValidateRequest(rawParams map[string][]string) (*QueryParameters, error) {
+	logger.Info(fmt.Sprintf("validating request parameters %s", rawParams))
 	queryParams, err := parseQueryParameters(rawParams)
 
 	if err != nil {
