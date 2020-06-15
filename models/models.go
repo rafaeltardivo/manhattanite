@@ -1,6 +1,6 @@
 package models
 
-// Cartesian point model.
+// Point is a cartesian point model.
 // Ignores ManhattanDistance for JSON serialization.
 type Point struct {
 	X                 int `json:"x"`
@@ -8,7 +8,7 @@ type Point struct {
 	ManhattanDistance int `json:"-"`
 }
 
-// Point implementation of native sort interface.
+// PointDistanceSorter implementation of native sort interface.
 type PointDistanceSorter []Point
 
 // Returns size of point slice (implementation of len).
@@ -26,7 +26,7 @@ func (p PointDistanceSorter) Swap(i, j int) {
 	p[i], p[j] = p[j], p[i]
 }
 
-// Returns a new Point model.
+// NewPoint returns a new Point model.
 func NewPoint(p Point, manhattanDistance int) Point {
 	return Point{
 		X:                 p.X,

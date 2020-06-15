@@ -6,16 +6,16 @@ import (
 	"github.com/manhattanite/models"
 )
 
-// Cartesian serializer interface definition.
+// CartesianSerializer interface definition.
 type CartesianSerializer interface {
 	Decode([]byte) ([]models.Point, error)
 	Encode(interface{}) []byte
 }
 
-// JSON implementation of cartesian serializer interface.
+// JSONFormat implementation of cartesian serializer interface.
 type JSONFormat struct{}
 
-// Decodes raw byte array to an array of points.
+// Decode decodes raw byte array to an array of points.
 func (j *JSONFormat) Decode(raw []byte) ([]models.Point, error) {
 	var points []models.Point
 
@@ -25,13 +25,13 @@ func (j *JSONFormat) Decode(raw []byte) ([]models.Point, error) {
 	return points, nil
 }
 
-// Encodes an interface into an array of bytes.
+// Encode encodes an interface into an array of bytes.
 func (j *JSONFormat) Encode(data interface{}) []byte {
 	payload, _ := json.Marshal(data)
 	return payload
 }
 
-// Returns a new JSONFormat.
+// NewJSONFormat() returns a new JSONFormat.
 func NewJSONFormat() CartesianSerializer {
 	return &JSONFormat{}
 }

@@ -6,7 +6,7 @@ import (
 	"github.com/manhattanite/utils"
 )
 
-// Cartesian repository interface definition.
+// CartesianRepository interface definition.
 type CartesianRepository interface {
 	LoadPoints() ([]models.Point, error)
 }
@@ -23,7 +23,7 @@ func (l *localJSONFile) LoadPoints() ([]models.Point, error) {
 	return serializers.NewJSONFormat().Decode(raw)
 }
 
-// Returns a new localJSONFile repository.
+// NewLocalJSONFile returns a new localJSONFile repository.
 func NewLocalJSONFile() CartesianRepository {
 	return &localJSONFile{}
 }

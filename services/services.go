@@ -9,7 +9,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Cartesian service interface definition.
+// CartesianService interface definition.
 type CartesianService interface {
 	FindPointsWithinDistance([]models.Point, int) ([]models.Point, error)
 }
@@ -44,7 +44,7 @@ func (c *cartesian) FindPointsWithinDistance(queried models.Point, maxDistance i
 	return pointsWithinDistance, nil
 }
 
-// Returns a new cartesian service (with loaded points).
+// NewCartesian returns a new cartesian service (with loaded points).
 func NewCartesian() (*cartesian, error) {
 	local := repositories.NewLocalJSONFile()
 	loadedPoints, err := local.LoadPoints()

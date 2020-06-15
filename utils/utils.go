@@ -12,20 +12,21 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Query parameters data
+// QueryParameters data
 type QueryParameters struct {
 	X                    int
 	Y                    int
 	MaxManhattanDistance int
 }
 
+// Logger for utils
 var Logger = logrus.New()
 
 func init() {
 	Logger.SetFormatter(&logrus.JSONFormatter{})
 }
 
-// Loads server port from to environment variable.
+// LoadServerPort loads port from to environment variable.
 func LoadServerPort() string {
 	key := "HTTP_SERVER_PORT"
 
@@ -33,7 +34,7 @@ func LoadServerPort() string {
 	return os.Getenv(key)
 }
 
-// Loads data file path from environment variable.
+// LoadDataFilePath loads data file path from environment variable.
 func LoadDataFilePath() string {
 	key := "POINTS_FILE_RELATIVE_PATH"
 
@@ -41,7 +42,7 @@ func LoadDataFilePath() string {
 	return os.Getenv(key)
 }
 
-// Loads file according to environtment variable.
+// LoadDataFile loads file according to environtment variable.
 func LoadDataFile() ([]byte, error) {
 	path := LoadDataFilePath()
 	if path == "" {
@@ -56,7 +57,7 @@ func LoadDataFile() ([]byte, error) {
 	return raw, nil
 }
 
-// Calculates and returns manhattan distance between queried and loaded point.
+// CalculateManhattanDistance calculates and returns manhattan distance between queried and loaded point.
 // Formula: |queried.X - loaded.X| + |queried.Y - loaded.Y|.
 func CalculateManhattanDistance(queried models.Point, loaded models.Point) int {
 	x := queried.X - loaded.X
@@ -115,7 +116,7 @@ func parseQueryParameters(query map[string][]string) (*QueryParameters, error) {
 	}, nil
 }
 
-// Validates and returns request query parameters.
+// ValidateRequest validates and returns request query parameters.
 func ValidateRequest(rawParams map[string][]string) (*QueryParameters, error) {
 	Logger.Info(fmt.Sprintf("validating request parameters %s", rawParams))
 	queryParams, err := parseQueryParameters(rawParams)
@@ -127,7 +128,7 @@ func ValidateRequest(rawParams map[string][]string) (*QueryParameters, error) {
 	return queryParams, nil
 }
 
-// Validates request http method (only GET is allowed).
+// ValidateHTTPMethod validates request http method (only GET is allowed).
 func ValidateHTTPMethod(HTTPMethod string) error {
 	if HTTPMethod != http.MethodGet {
 		return ErrInvalidMethod(HTTPMethod)
@@ -136,7 +137,7 @@ func ValidateHTTPMethod(HTTPMethod string) error {
 	return nil
 }
 
-// Returns HTTP response as JSON.
+// JSONResponse returns HTTP response as JSON.
 func JSONResponse(w http.ResponseWriter, data interface{}, statusCode int) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.Header().Set("X-Content-Type-Options", "nosniff")
