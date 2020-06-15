@@ -126,5 +126,7 @@ Logs are pretty descriptive. They come in two levels: `info` and `error`. Here i
 
 ### Final Considerations
 - This project is not "production ready". For that, we would need a more robust HTTP multiplexer;
-- The `data.json` is read all at once, which is dangerous for large files who may not fit on your available RAM. For better scalability, we would need to stream the reading process.
-- The sorting is done using go sorting interface, which uses [quicksort](https://golang.org/src/sort/sort.go?s=5416:5441#L206)
+- The `data.json` is read all at once, which is dangerous for large files who may not fit on your available RAM. For better scalability, we would need to stream the reading process;
+- The sorting is done using go sorting interface, which uses [quicksort](https://golang.org/src/sort/sort.go?s=5416:5441#L206) to sort data;
+- Since the queries are deterministic, it could have a cache model (invalidated everytime a new `data.json` was loaded);
+- There's probably a way to optimize the search for points by ordering the file.
