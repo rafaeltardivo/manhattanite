@@ -4,7 +4,7 @@
 
 *I, Robot - Isaac Asimov*.
 
-Manhatannite service provides a simple API with a single endpoint that returns a list of points that are within distance (`x`, `y` `distance`), based on pre-loaded points from [`data.json`](data/data.json).
+Manhatannite cartesianservice provides a simple API with a single endpoint that returns a list of points that are within [manhattan distance](https://xlinux.nist.gov/dads/HTML/manhattanDistance.html) (`x`, `y` `distance`), based on pre-loaded two-dimentional points from [`data.json`](data/data.json).
 
 ## Table of Contents
 
@@ -30,9 +30,9 @@ Manhatannite service provides a simple API with a single endpoint that returns a
 ## How it Works
 
 ### Architecture
-Manhattanite is designed as a hexagonal (a.k.a. Ports and Adapters) microservice:
+Manhattanite cartesian service is designed as a hexagonal (a.k.a. Ports and Adapters) microservice:
 
-![alt text](https://user-images.githubusercontent.com/4626533/84606411-5bf23880-ae7c-11ea-8f44-413bfed7e4af.jpg)
+![alt text](https://user-images.githubusercontent.com/4626533/84607176-3a944b00-ae82-11ea-8f78-e96f0b51d257.jpg)
 
 The domain logic is separated from data sources (repositories) and presentation formats (serializers), making it easy to switch from local file to database, or even from JSON to XML.
 
