@@ -4,6 +4,8 @@
 
 *I, Robot - Isaac Asimov*.
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/rafaeltardivo/manhattanite)](https://goreportcard.com/report/github.com/rafaeltardivo/manhattanite)
+
 Manhatannite cartesianservice provides a simple API with a single endpoint that returns a list of points that are within [manhattan distance](https://xlinux.nist.gov/dads/HTML/manhattanDistance.html) (`x`, `y` `distance`), based on pre-loaded two-dimentional points from [`data.json`](data/data.json).
 
 ## Table of Contents
@@ -124,4 +126,5 @@ Logs are pretty descriptive. They come in two levels: `info` and `error`. Here i
 
 ### Final Considerations
 - This project is not "production ready". For that, we would need a more robust HTTP multiplexer;
-- The `data.json` is read all at once, which is dangerous for large files who may not fit on your available RAM. For better scalability, we would need to stream the reading proccess.
+- The `data.json` is read all at once, which is dangerous for large files who may not fit on your available RAM. For better scalability, we would need to stream the reading process.
+- The sorting is done using go sorting interface, which uses [quicksort](https://golang.org/src/sort/sort.go?s=5416:5441#L206)
